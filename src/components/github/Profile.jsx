@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import RepoList from './RepoList.jsx';
 
 class Profile extends Component {
   render() {
@@ -33,6 +34,8 @@ class Profile extends Component {
               <a href={this.props.userData.html_url} className="btn btn-primary">View user's profile</a>
             </div>
           </div>
+
+          <RepoList userRepo={this.props.userRepo} />
         </div>
       </div>
     )
