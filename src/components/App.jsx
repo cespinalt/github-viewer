@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import Nav from './github/Nav.jsx';
+import Profile from './github/Profile.jsx';
 import {github} from '../../config.js';
 
 class App extends Component {
@@ -13,6 +15,26 @@ class App extends Component {
         }
     }
 
+    getUserData() {
+        axios.get(`https://api.github.com/users/${this.state.username}`,{
+          params: {
+            client_id: this.props.clientId,
+            client_secret: this.props.clientSecret,
+          }
+        })
+        .then(res => {
+          this.setState({userData: res.data});
+          console.log(res.data);
+        })
+        .catch(err => {
+          this.setState({username: null});
+        })
+    }
+
+    componentDidMount() {
+      this.getUserData();
+    }
+
     render() {
       return(
         <div className="container-fluid">
@@ -20,7 +42,9 @@ class App extends Component {
             <Nav />
           </div>
           <div className="row">
-            {this.state.username}
+            <div className="col-md-12">
+              <Profile userData={this.state.userData} />
+            </div>
           </div>
         </div>
       )
