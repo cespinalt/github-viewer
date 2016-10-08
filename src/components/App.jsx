@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Nav from './github/Nav.jsx';
 import Profile from './github/Profile.jsx';
+import Search from './github/Search.jsx';
 import {github} from '../../config.js';
 
 class App extends Component {
@@ -47,6 +48,13 @@ class App extends Component {
         })
     }
 
+    handleSubmit(username) {
+        this.setState({username: username}, () => {
+          this.getUserData();
+          this.getUserRepo();
+        });
+    }
+
     componentDidMount() {
       this.getUserData();
       this.getUserRepo();
@@ -57,6 +65,7 @@ class App extends Component {
         <div className="container-fluid">
           <div className="row">
             <Nav />
+            <Search handleSubmit={this.handleSubmit.bind(this)}/>
           </div>
           <div className="row">
             <div className="col-md-12">
