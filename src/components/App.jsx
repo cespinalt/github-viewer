@@ -31,8 +31,25 @@ class App extends Component {
         })
     }
 
+    getUserRepo() {
+        axios.get(`https://api.github.com/users/${this.state.username}/repos`,{
+          params: {
+            client_id: this.props.clientId,
+            client_secret: this.props.clientSecret,
+          }
+        })
+        .then(res => {
+          this.setState({userRepo: res.data});
+          console.log(res.data);
+        })
+        .catch(err => {
+          this.setState({username: null});
+        })
+    }
+
     componentDidMount() {
       this.getUserData();
+      this.getUserRepo();
     }
 
     render() {
@@ -43,7 +60,7 @@ class App extends Component {
           </div>
           <div className="row">
             <div className="col-md-12">
-              <Profile userData={this.state.userData} />
+              <Profile {...this.state} />
             </div>
           </div>
         </div>
